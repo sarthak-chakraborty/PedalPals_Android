@@ -1,2 +1,3 @@
-# PedalPals_Android
-Android based Bicycle Rental Portal developed as a mini-project for DBMS (CS43002) course, IITKGP
+# PedalPals
+
+An android based Bicycle Rental Portal developed using Java and SQLite database management system in Android Studio.
