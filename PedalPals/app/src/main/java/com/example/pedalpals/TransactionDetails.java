@@ -32,7 +32,7 @@ public class TransactionDetails extends AppCompatActivity implements NavigationV
 
     SharedPreferences trans, prefs;
     TextView transac_id_tv, reg_no_tv, model_tv, color_tv, location_tv, cycle_rating_tv;
-    TextView user_info_tv, name_tv, email_tv, hall_tv, user_rating_tv;
+    TextView user_info_tv, name_tv, email_tv, hall_tv, user_rating_tv,mobile_tv;
     TextView st_date_tv, end_date_tv, price_tv, days_tv, amt_tv;
 
     String username;
@@ -82,11 +82,13 @@ public class TransactionDetails extends AppCompatActivity implements NavigationV
         location_tv = findViewById(R.id.location);
         cycle_rating_tv = findViewById(R.id.cycle_rating);
 
+
         user_info_tv = findViewById(R.id.user_info);
         name_tv = findViewById(R.id.name);
         email_tv = findViewById(R.id.email);
         hall_tv = findViewById(R.id.hall);
         user_rating_tv = findViewById(R.id.user_rating);
+        mobile_tv = findViewById(R.id.mobile);
 
         st_date_tv = findViewById(R.id.st_date);
         end_date_tv = findViewById(R.id.end_date);
@@ -195,7 +197,8 @@ public class TransactionDetails extends AppCompatActivity implements NavigationV
                 bf_user.append(res.getString(3) + ";");
                 bf_user.append(res.getString(4) + ";");
                 bf_user.append(res.getString(5) + ";");
-                bf_user.append(res.getString(7));
+                bf_user.append(res.getString(7) + ";");
+                bf_user.append(res.getString(8) + "\n");
             }
         }
         else{
@@ -208,7 +211,8 @@ public class TransactionDetails extends AppCompatActivity implements NavigationV
                 bf_user.append(res.getString(3) + ";");
                 bf_user.append(res.getString(4) + ";");
                 bf_user.append(res.getString(5) + ";");
-                bf_user.append(res.getString(7));
+                bf_user.append(res.getString(7) + ";");
+                bf_user.append(res.getString(8) + "\n");
             }
         }
         String[] str_usr = bf_user.toString().split(";");
@@ -228,13 +232,14 @@ public class TransactionDetails extends AppCompatActivity implements NavigationV
         email_tv.setText(str_usr[2]);
         hall_tv.setText(str_usr[4] + " " + str_usr[3]);
         if(str_usr[5].isEmpty() || str_usr[5].equals("0"))
-            user_rating_tv.setText("N/A");
+            user_rating_tv.setText("NA");
         else
             user_rating_tv.setText(str_usr[5]);
 
         st_date_tv.setText(start_date);
         end_date_tv.setText(end_date);
         price_tv.append("Rs. " + price);
+        mobile_tv.setText(str_usr[6]);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date();

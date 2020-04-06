@@ -30,7 +30,7 @@ public class RegisterCycle extends AppCompatActivity implements NavigationView.O
 
     Database db;
 
-    EditText reg_no, model, color, price;
+    EditText reg_no, model, color, price,condition;
     Spinner location;
     Button register;
 
@@ -58,12 +58,12 @@ public class RegisterCycle extends AppCompatActivity implements NavigationView.O
         toggle.syncState();
 
         db = new Database(this);
-
         reg_no = findViewById(R.id.reg_no);
         model = findViewById(R.id.model);
         color = findViewById(R.id.color);
         location = findViewById(R.id.location);
         price = findViewById(R.id.price);
+        condition = findViewById(R.id.condition);
         register = findViewById(R.id.register_button);
         nav_head_name = hView.findViewById(R.id.nav_welcome);
         nav_head_email = hView.findViewById(R.id.nav_mail);
@@ -85,6 +85,8 @@ public class RegisterCycle extends AppCompatActivity implements NavigationView.O
         Cursor res = db.getAllData_Location();
         String[] items;
         StringBuffer bf = new StringBuffer();
+        bf.append("Select Location;");
+        location_name="Select Location";
         if(res.getCount() > 0){
             while(res.moveToNext()){
                 bf.append(res.getString(0)+";");
@@ -184,17 +186,39 @@ public class RegisterCycle extends AppCompatActivity implements NavigationView.O
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String p = price.getText().toString();
-                if(p.isEmpty()){
-                    Toast.makeText(RegisterCycle.this, "Enter Price", Toast.LENGTH_SHORT).show();
+                if(price.getText().toString().trim().equals("") || model.getText().toString().trim().equals("") || color.getText().toString().trim().equals("") ||
+                        reg_no.getText().toString().trim().equals("") || condition.getText().toString().trim().equals("")){
+                    Toast.makeText(RegisterCycle.this, "Fields cannot be left blank", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    boolean isInserted = db.insertData_Cycle(Integer.parseInt(reg_no.getText().toString()),
-                            model.getText().toString(),
-                            color.getText().toString(),
+                    try {
+                        Integer reg = Integer.parseInt(reg_no.getText().toString().trim());
+                    }
+                    catch(Exception e){
+                        Toast.makeText(RegisterCycle.this, "Registration Number needs to be Integer", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    try {
+                        Integer p = Integer.parseInt(price.getText().toString().trim());
+                    }
+                    catch(Exception e){
+                        Toast.makeText(RegisterCycle.this, "Price needs to be Integer", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if(location_name.equals("Select Location")){
+                        Toast.makeText(RegisterCycle.this, "Select Valid Location", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    boolean isInserted = db.insertData_Cycle(Integer.parseInt(reg_no.getText().toString().trim()),
+                            model.getText().toString().trim(),
+                            color.getText().toString().trim(),
                             location_name,
-                            Integer.parseInt(price.getText().toString()),
-                            username);
+                            Integer.parseInt(price.getText().toString().trim()),
+                            username,
+                            condition.getText().toString().trim());
 
                     if (isInserted) {
                         Toast.makeText(RegisterCycle.this, "Cycle Registered", Toast.LENGTH_SHORT).show();
@@ -206,6 +230,8 @@ public class RegisterCycle extends AppCompatActivity implements NavigationView.O
                     model.getText().clear();
                     color.getText().clear();
                     price.getText().clear();
+                    condition.getText().clear();
+                    location.setSelection(0);
                 }
             }
         });

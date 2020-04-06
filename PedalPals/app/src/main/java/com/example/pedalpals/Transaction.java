@@ -49,7 +49,7 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
     TextView nav_head_name, nav_head_email;
 
     TextView ride_regno_tv, ride_st_date_tv, ride_end_date_tv, ride_amt_tv;
-    TextView rent_user_tv, rent_regno_tv, rent_st_date_tv, rent_end_date_tv;
+    TextView rent_user_tv, rent_regno_tv, rent_st_date_tv, rent_end_date_tv,id_tv, nodata_ride,nodata_rent;
 
     boolean flag_ride = false;
     boolean flag_rent = false;
@@ -73,6 +73,8 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
 
         db = new Database(this);
         tableLayout_ride = findViewById(R.id.table_ride);
+        nodata_ride = findViewById(R.id.nodata_ride);
+        nodata_rent = findViewById(R.id.nodata_rent);
         tableLayout_rent = findViewById(R.id.table_rent);
         nav_head_name = hView.findViewById(R.id.nav_welcome);
         nav_head_email = hView.findViewById(R.id.nav_mail);
@@ -93,14 +95,20 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
 
         getData_ride();
         if(hasData_ride){
+            nodata_ride.setText("Ride Data");
             addHeaders_ride();
             addData_ride();
+        } else {
+            nodata_ride.setText("No Ride Data Available");
         }
 
         getData_rent();
         if(hasData_rent){
+            nodata_rent.setText("Rent Data");
             addHeaders_rent();
             addData_rent();
+        } else {
+            nodata_rent.setText("No Rent Data Available");
         }
     }
 
@@ -200,11 +208,22 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
                 TableRow.LayoutParams.WRAP_CONTENT));
 
 
+        TextView header5 = new TextView(this);
+        header5.setText("ID");
+        header5.setTextColor(Color.WHITE);
+        header5.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header5.setTextSize(15);
+        header5.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        header5.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        header5.setPadding(15, 25, 15, 25);
+        header5.setTypeface(Typeface.SERIF, Typeface.BOLD);
+        tableRow.addView(header5);
+
         TextView header = new TextView(this);
         header.setText("Reg. No.");
         header.setTextColor(Color.WHITE);
-        header.setBackgroundColor(Color.DKGRAY);
-        header.setTextSize(18);
+        header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header.setTextSize(15);
         header.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         header.setPadding(15, 25, 15, 25);
@@ -214,8 +233,8 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
         TextView header2 = new TextView(this);
         header2.setText("Start Date");
         header2.setTextColor(Color.WHITE);
-        header2.setBackgroundColor(Color.DKGRAY);
-        header2.setTextSize(18);
+        header2.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header2.setTextSize(15);
         header2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         header2.setPadding(15, 25, 15, 25);
@@ -225,8 +244,8 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
         TextView header3 = new TextView(this);
         header3.setText("End Date");
         header3.setTextColor(Color.WHITE);
-        header3.setBackgroundColor(Color.DKGRAY);
-        header3.setTextSize(18);
+        header3.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header3.setTextSize(15);
         header3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         header3.setPadding(15, 25, 15, 25);
@@ -236,8 +255,8 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
         TextView header4 = new TextView(this);
         header4.setText("Amount");
         header4.setTextColor(Color.WHITE);
-        header4.setBackgroundColor(Color.DKGRAY);
-        header4.setTextSize(18);
+        header4.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header4.setTextSize(15);
         header4.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         header4.setPadding(15, 25, 15, 25);
@@ -277,28 +296,38 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
                     TableRow.LayoutParams.WRAP_CONTENT));
 
             if((curDate.getTime()-endDate.getTime())>=0 && (Integer.parseInt(data[8]) <= 0)) {
-                tableRow.setBackgroundColor(Color.rgb(250, 0, 0));
+                tableRow.setBackgroundColor(getResources().getColor(R.color.color4,null));
                 flag_ride = true;
             }
             else
-                tableRow.setBackgroundColor(Color.LTGRAY);
+                tableRow.setBackgroundColor(getResources().getColor(R.color.color2,null));
 
+
+            id_tv = new TextView(this);
+            id_tv.setText(data[0]);
+            id_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
+            id_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            id_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
+            id_tv.setTextSize(14);
+            id_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            id_tv.setPadding(15, 20, 15, 20);
+            tableRow.addView(id_tv);
 
             ride_regno_tv = new TextView(this);
             ride_regno_tv.setText(data[3]);
-            ride_regno_tv.setTextColor(Color.BLACK);
+            ride_regno_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             ride_regno_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             ride_regno_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
-            ride_regno_tv.setTextSize(15);
+            ride_regno_tv.setTextSize(14);
             ride_regno_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             ride_regno_tv.setPadding(15, 20, 15, 20);
             tableRow.addView(ride_regno_tv);
 
             ride_st_date_tv = new TextView(this);
             ride_st_date_tv.setText(data[4]);
-            ride_st_date_tv.setTextColor(Color.BLACK);
+            ride_st_date_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             ride_st_date_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            ride_st_date_tv.setTextSize(15);
+            ride_st_date_tv.setTextSize(14);
             ride_st_date_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             ride_st_date_tv.setPadding(15, 20, 15, 20);
             ride_st_date_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
@@ -306,9 +335,9 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
 
             ride_end_date_tv = new TextView(this);
             ride_end_date_tv.setText(data[5]);
-            ride_end_date_tv.setTextColor(Color.BLACK);
+            ride_end_date_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             ride_end_date_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            ride_end_date_tv.setTextSize(15);
+            ride_end_date_tv.setTextSize(14);
             ride_end_date_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             ride_end_date_tv.setPadding(15, 20, 15, 20);
             ride_end_date_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
@@ -320,9 +349,9 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
 
             ride_amt_tv = new TextView(this);
             ride_amt_tv.setText("Rs. "+ (Integer.parseInt(data[6]) * days));
-            ride_amt_tv.setTextColor(Color.BLACK);
+            ride_amt_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             ride_amt_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            ride_amt_tv.setTextSize(15);
+            ride_amt_tv.setTextSize(14);
             ride_amt_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             ride_amt_tv.setPadding(15, 20, 15, 20);
             ride_amt_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
@@ -374,7 +403,7 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
                 String rate = String.valueOf(rating.getProgress());
 
                 if (Float.parseFloat(rate) == 0){
-                    Toast.makeText(Transaction.this, "No Rating given", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transaction.this, "No Rating Given", Toast.LENGTH_SHORT).show();
 
                     trans.edit().putString("transaction_id", data[0]).apply();
                     trans.edit().putString("user", data[1]).apply();
@@ -452,12 +481,23 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
                 TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.WRAP_CONTENT));
 
+        TextView header5 = new TextView(this);
+        header5.setText("ID");
+        header5.setTextColor(Color.WHITE);
+        header5.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header5.setTextSize(15);
+        header5.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        header5.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        header5.setPadding(15, 25, 15, 25);
+        header5.setTypeface(Typeface.SERIF, Typeface.BOLD);
+        tableRow.addView(header5);
+
 
         TextView header = new TextView(this);
         header.setText("Username");
         header.setTextColor(Color.WHITE);
-        header.setBackgroundColor(Color.DKGRAY);
-        header.setTextSize(18);
+        header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header.setTextSize(15);
         header.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         header.setPadding(15, 25, 15, 25);
@@ -467,8 +507,8 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
         TextView header2 = new TextView(this);
         header2.setText("Reg.No.");
         header2.setTextColor(Color.WHITE);
-        header2.setBackgroundColor(Color.DKGRAY);
-        header2.setTextSize(18);
+        header2.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header2.setTextSize(15);
         header2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         header2.setPadding(15, 25, 15, 25);
@@ -478,8 +518,8 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
         TextView header3 = new TextView(this);
         header3.setText("Start Date");
         header3.setTextColor(Color.WHITE);
-        header3.setBackgroundColor(Color.DKGRAY);
-        header3.setTextSize(18);
+        header3.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header3.setTextSize(15);
         header3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         header3.setPadding(15, 25, 15, 25);
@@ -489,8 +529,8 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
         TextView header4 = new TextView(this);
         header4.setText("End Date");
         header4.setTextColor(Color.WHITE);
-        header4.setBackgroundColor(Color.DKGRAY);
-        header4.setTextSize(18);
+        header4.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header4.setTextSize(15);
         header4.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         header4.setPadding(15, 25, 15, 25);
@@ -526,28 +566,37 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
             }
 
             if((curDate.getTime()-endDate.getTime())>=0 && (Integer.parseInt(data[7]) <= 0)) {
-                tableRow.setBackgroundColor(Color.rgb(250, 0, 0));
+                tableRow.setBackgroundColor(getResources().getColor(R.color.color4,null));
                 flag_rent = true;
             }
             else
-                tableRow.setBackgroundColor(Color.LTGRAY);
+                tableRow.setBackgroundColor(getResources().getColor(R.color.color2,null));
 
+            id_tv = new TextView(this);
+            id_tv.setText(data[0]);
+            id_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
+            id_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            id_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
+            id_tv.setTextSize(14);
+            id_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            id_tv.setPadding(15, 20, 15, 20);
+            tableRow.addView(id_tv);
 
             rent_user_tv = new TextView(this);
             rent_user_tv.setText(data[1]);
-            rent_user_tv.setTextColor(Color.BLACK);
+            rent_user_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             rent_user_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             rent_user_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
-            rent_user_tv.setTextSize(15);
+            rent_user_tv.setTextSize(14);
             rent_user_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             rent_user_tv.setPadding(15, 20, 15, 20);
             tableRow.addView(rent_user_tv);
 
             rent_regno_tv = new TextView(this);
             rent_regno_tv.setText(data[3]);
-            rent_regno_tv.setTextColor(Color.BLACK);
+            rent_regno_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             rent_regno_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            rent_regno_tv.setTextSize(15);
+            rent_regno_tv.setTextSize(14);
             rent_regno_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             rent_regno_tv.setPadding(15, 20, 15, 20);
             rent_regno_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
@@ -555,7 +604,7 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
 
             rent_st_date_tv = new TextView(this);
             rent_st_date_tv.setText(data[4]);
-            rent_st_date_tv.setTextColor(Color.BLACK);
+            rent_st_date_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             rent_st_date_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             rent_st_date_tv.setTextSize(15);
             rent_st_date_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -565,9 +614,9 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
 
             rent_end_date_tv = new TextView(this);
             rent_end_date_tv.setText(data[5]);
-            rent_end_date_tv.setTextColor(Color.BLACK);
+            rent_end_date_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             rent_end_date_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            rent_end_date_tv.setTextSize(15);
+            rent_end_date_tv.setTextSize(14);
             rent_end_date_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             rent_end_date_tv.setPadding(15, 20, 15, 20);
             rent_end_date_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);

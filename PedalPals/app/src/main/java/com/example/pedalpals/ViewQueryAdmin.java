@@ -1,7 +1,6 @@
 package com.example.pedalpals;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,11 +11,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,12 +27,12 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
-public class ManageCycle extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ViewQueryAdmin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
 
     Database db;
-
     TextView nav_head_name, nav_head_email;
 
     TableLayout tableLayout;
@@ -45,12 +42,12 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
     String username;
     SharedPreferences prefs;
 
-    TextView reg_no_tv, model_tv, price_tv, nodata;
+    TextView name_tv, subject_tv, date_tv, nodata;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_cycle);
+        setContentView(R.layout.activity_view_query_admin);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,14 +81,13 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
         nav_head_email.setText(str_nav_head[1]);
 
         getData();
-        if(hasData){
+
+        if (hasData) {
             addHeaders();
             addData();
+        } else {
+            nodata.setText("No Data Available");
         }
-        else{
-            nodata.setText("No data available");
-        }
-
     }
 
 
@@ -99,13 +95,13 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_menu:
-                Intent i = new Intent(ManageCycle.this, Menu.class);
+                Intent i = new Intent(ViewQueryAdmin.this, AdminMenu.class);
                 startActivity(i);
                 finish();
                 break;
 
             case R.id.nav_profile:
-                Intent i1 = new Intent(ManageCycle.this, Profile.class);
+                Intent i1 = new Intent(ViewQueryAdmin.this, AdminProfile.class);
                 startActivity(i1);
                 break;
 
@@ -129,7 +125,7 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
     }
 
     private void logout(){
-        AlertDialog.Builder builder=new AlertDialog.Builder(ManageCycle.this);
+        AlertDialog.Builder builder=new AlertDialog.Builder(ViewQueryAdmin.this);
         builder.setMessage("Do you want to logout?");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -138,7 +134,7 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
                 edit.putBoolean("userlogin", false);
                 edit.apply();
 
-                Intent i = new Intent(ManageCycle.this, MainActivity.class);
+                Intent i = new Intent(ViewQueryAdmin.this, MainActivity.class);
                 startActivity(i);
                 i.putExtra("finish", true);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -158,63 +154,60 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
         alert.show();
     }
 
-    private void  getData() {
-        Cursor result = db.getData_Cycle_username(username);
-
+    public void getData() {
+        Cursor result = db.getAllData_Contact();
         if (result.getCount() == 0) {
             hasData = false;
         }
         else {
+
             bf = new StringBuffer();
             while (result.moveToNext()) {
                 bf.append(result.getString(0) + ";");
                 bf.append(result.getString(1) + ";");
                 bf.append(result.getString(2) + ";");
                 bf.append(result.getString(3) + ";");
-                bf.append(result.getString(4) + ";");
-                bf.append(result.getString(6) + ";");
-                bf.append(result.getString(7) + "\n");
+                bf.append(result.getString(4) + "\n");
             }
             bf.deleteCharAt(bf.length()-1);
             hasData = true;
         }
     }
 
-
-    private void addHeaders() {
+    public void addHeaders() {
         tableRow = new TableRow(this);
         tableRow.setLayoutParams(new LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT));
 
 
+        TextView header4 = new TextView(this);
+        header4.setText("Date");
+        header4.setTextColor(Color.WHITE);
+        header4.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
+        header4.setTextSize(15);
+        header4.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        header4.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+        header4.setPadding(15, 25, 15, 25);
+        header4.setTypeface(Typeface.SERIF, Typeface.BOLD);
+        tableRow.addView(header4);
+
         TextView header = new TextView(this);
-        header.setText("Reg. No.");
+        header.setText("Name");
         header.setTextColor(Color.WHITE);
         header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
-        header.setTextSize(20);
+        header.setTextSize(15);
         header.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
         header.setPadding(15, 25, 15, 25);
         header.setTypeface(Typeface.SERIF, Typeface.BOLD);
         tableRow.addView(header);
 
-        TextView header2 = new TextView(this);
-        header2.setText("Model");
-        header2.setTextColor(Color.WHITE);
-        header2.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
-        header2.setTextSize(20);
-        header2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        header2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        header2.setPadding(15, 25, 15, 25);
-        header2.setTypeface(Typeface.SERIF, Typeface.BOLD);
-        tableRow.addView(header2);
-
         TextView header3 = new TextView(this);
-        header3.setText("Price/Day");
+        header3.setText("Subject");
         header3.setTextColor(Color.WHITE);
         header3.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
-        header3.setTextSize(20);
+        header3.setTextSize(15);
         header3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header3.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         header3.setPadding(15, 25, 15, 25);
@@ -225,11 +218,10 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
         tableLayout.addView(tableRow, new TableLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT));
-
     }
 
 
-    private void addData(){
+    public void addData() {
         String str = bf.toString();
 
         String[] data_row = str.split("\n");
@@ -243,58 +235,52 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
                     LayoutParams.WRAP_CONTENT));
 
 
-            reg_no_tv = new TextView(this);
-            reg_no_tv.setText(data[0]);
-            reg_no_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
-            reg_no_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            reg_no_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
-            reg_no_tv.setTextSize(15);
+            date_tv = new TextView(this);
+            date_tv.setText(data[4]);
+            date_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
+            date_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            date_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
+            date_tv.setTextSize(15);
             //reg_no_tv.setBackgroundColor(Color.LTGRAY);
-            reg_no_tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-            reg_no_tv.setPadding(15, 20, 15, 20);
-            tableRow.addView(reg_no_tv);
+            date_tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+            date_tv.setPadding(15, 20, 15, 20);
+            tableRow.addView(date_tv);
 
-            model_tv = new TextView(this);
-            model_tv.setText(data[1]);
-            model_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
-            model_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            model_tv.setTextSize(15);
-           // model_tv.setBackgroundColor(Color.LTGRAY);
-            model_tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-            model_tv.setPadding(15, 20, 15, 20);
-            model_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
-            tableRow.addView(model_tv);
 
-            price_tv = new TextView(this);
-            price_tv.setText("Rs. "+data[4]);
-            price_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
-            price_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            name_tv = new TextView(this);
+            name_tv.setText(data[0]);
+            name_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
+            name_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            name_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
+            name_tv.setTextSize(15);
+            //reg_no_tv.setBackgroundColor(Color.LTGRAY);
+            name_tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+            name_tv.setPadding(15, 20, 15, 20);
+            tableRow.addView(name_tv);
+
+
+
+            subject_tv = new TextView(this);
+            subject_tv.setText(data[2]);
+            subject_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
+            subject_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             //price_tv.setBackgroundColor(Color.LTGRAY);
-            price_tv.setTextSize(15);
-            price_tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-            price_tv.setPadding(15, 20, 15, 20);
-            price_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
-            tableRow.addView(price_tv);
+            subject_tv.setTextSize(15);
+            subject_tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+            subject_tv.setPadding(15, 20, 15, 20);
+            subject_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
+            tableRow.addView(subject_tv);
 
             tableRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     StringBuffer buffer = new StringBuffer();
-                    buffer.append("Reg. No.: "+data[0] + "\n\n");
-                    buffer.append("Model: "+data[1] + "\n\n");
-                    buffer.append("Color: "+data[2] + "\n\n");
-                    buffer.append("Location: "+data[3] + "\n\n");
-                    buffer.append("Price/Day: Rs. "+data[4] + "\n\n");
-                    if(data[5].trim().equals("0")){
-                        buffer.append("Rating: NA\n\n");
-                    }
-                    else {
-                        buffer.append("Rating: " + data[5] + "\n\n");
-                    }
-                    buffer.append("Condition Description: "+data[6] + "\n\n");
-
-
-                    showMessage("Details", buffer.toString(), data[0]);
+                    buffer.append("Query Date.: "+data[4] + "\n\n");
+                    buffer.append("Name.: "+data[0] + "\n\n");
+                    buffer.append("Email ID: "+data[1] + "\n\n");
+                    buffer.append("Subject: "+data[2] + "\n\n");
+                    buffer.append("Query: "+data[3]+ "\n\n");
+                    showMessage("Details", buffer.toString(), data[4],data[1],data[2]);
                 }
             });
 
@@ -302,56 +288,47 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
             tableLayout.addView(tableRow, new TableLayout.LayoutParams(
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.WRAP_CONTENT));
-
         }
 
     }
 
-    private void showMessage(String title, String message, final String reg_no) {
+
+          /*  tableRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    StringBuffer buffer = new StringBuffer();
+                    buffer.append("Username: " + data[0] + "\n\n");
+                    buffer.append("Name: " + data[1] + " " + data[2] + "\n\n");
+                    buffer.append("Email ID: " + data[3] + "\n\n");
+                    buffer.append("Room: " + data[4] + "\n\n");
+                    buffer.append("Hall: " + data[5] + "\n\n");
+
+                    if (data[7] == "") {
+                        data[7] = "NA";
+                    }
+                    buffer.append("Rating: " + data[7] + "\n\n");
+
+
+                    showMessage("Details", buffer.toString(), data[0]);
+                }
+            });*/
+
+    private void showMessage(String title, String message, final String date,final String email,final String subject) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                Calendar c = Calendar.getInstance();
-                String date = sdf.format(c.getTime());
-
-                Cursor res = db.getData_Transaction_delete(reg_no, date);
-                if(res.getCount() > 0){
-                    Toast.makeText(ManageCycle.this, "Cannot Update. Cycle is in use.", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    prefs.edit().putString("reg_no", reg_no).apply();
-                    Intent i = new Intent(ManageCycle.this, UpdateCycle.class);
-                    startActivity(i);
-                    finish();
-                }
-            }
-        });
 
         builder.setNegativeButton("DELETE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(ManageCycle.this); //Home is name of the activity
-                builder.setMessage("Are you sure you want to delete cycle?");
+                AlertDialog.Builder builder=new AlertDialog.Builder(ViewQueryAdmin.this); //Home is name of the activity
+                builder.setMessage("Are you sure you want to delete query?");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        Calendar c = Calendar.getInstance();
-                        String date = sdf.format(c.getTime());
-
-                        Cursor res = db.getData_Transaction_delete(reg_no, date);
-                        if(res.getCount() > 0){
-                            Toast.makeText(ManageCycle.this, "Cannot Delete. Cycle is in use.", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Integer deleteRows = db.deleteData_Cycle(reg_no, username);
+                            Integer deleteRows = db.deleteQuery(date,email,subject);
                             if(deleteRows > 0) {
-                                Toast.makeText(ManageCycle.this, "Cycle Deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ViewQueryAdmin.this, "Query Deleted", Toast.LENGTH_SHORT).show();
                                 tableLayout.removeAllViews();
                                 getData();
                                 if(hasData) {
@@ -359,12 +336,12 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
                                     addData();
                                 }
                                 else{
-                                    nodata.setText("No data available");
+                                    nodata.setText("No Data Available");
                                 }
                             }
                             else
-                                Toast.makeText(ManageCycle.this, "Cycle Not Deleted", Toast.LENGTH_SHORT).show();
-                        }
+                                Toast.makeText(ViewQueryAdmin.this, "Query Not Deleted", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -389,5 +366,5 @@ public class ManageCycle extends AppCompatActivity implements NavigationView.OnN
         AlertDialog alert=builder.create();
         alert.show();
     }
-
 }
+

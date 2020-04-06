@@ -9,22 +9,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Profile"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
-        <activity android:name=".TransactionDetails"
+        <activity android:name=".TransactionAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ManageLocationsAdmin"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ConfirmRide"
+        <activity android:name=".ViewQueryAdmin"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".UpdateCycle"
+        <activity android:name=".Contact" />
+        <activity android:name=".ViewCycleAdmin"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".AdminProfile" />
+        <activity android:name=".ViewUserAdmin"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".UserLogin" />
+        <activity android:name=".AdminMenu"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TransactionDetails"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ConfirmRide"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UpdateCycle"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AdminLogin" />
-        <activity android:name=".Transaction"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".GetRide"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ManageCycle"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".RegisterCycle"
+        <activity
+            android:name=".Transaction"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".GetRide"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ManageCycle"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RegisterCycle"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Menu"

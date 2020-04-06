@@ -41,7 +41,7 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
     String username;
     SharedPreferences prefs;
 
-    TextView reg_no_tv, model_tv, price_tv, owner_tv;
+    TextView reg_no_tv, model_tv, price_tv, owner_tv, nodata;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +63,7 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
         tableLayout = findViewById(R.id.table);
         nav_head_name = hView.findViewById(R.id.nav_welcome);
         nav_head_email = hView.findViewById(R.id.nav_mail);
+        nodata = findViewById(R.id.nodata);
         prefs = this.getSharedPreferences("PedalPals", 0);
         username = prefs.getString("username", "");
 
@@ -83,13 +84,7 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
             addData();
         }
         else{
-            TextView noData = new TextView(this);
-            noData.setTextSize(20);
-            noData.setText("No Data");
-            noData.setTextColor(Color.BLACK);
-            noData.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            noData.setPadding(15, 25, 15, 25);
-            noData.setTypeface(Typeface.SERIF, Typeface.BOLD);
+            nodata.setText("No data available");
         }
     }
 
@@ -190,12 +185,12 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
         tableRow.setLayoutParams(new TableRow.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.WRAP_CONTENT));
+        tableRow.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark,null));
 
 
         TextView header = new TextView(this);
         header.setText("Reg. No.");
         header.setTextColor(Color.WHITE);
-        header.setBackgroundColor(Color.DKGRAY);
         header.setTextSize(20);
         header.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -206,7 +201,6 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
         TextView header2 = new TextView(this);
         header2.setText("Model");
         header2.setTextColor(Color.WHITE);
-        header2.setBackgroundColor(Color.DKGRAY);
         header2.setTextSize(20);
         header2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -228,7 +222,6 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
         TextView header4 = new TextView(this);
         header4.setText("Price/Day");
         header4.setTextColor(Color.WHITE);
-        header4.setBackgroundColor(Color.DKGRAY);
         header4.setTextSize(20);
         header4.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         header4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -253,6 +246,7 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
             final String[] data = data_row[i].split(";");
 
             tableRow = new TableRow(this);
+            tableRow.setBackgroundColor(getResources().getColor(R.color.color4,null));
             tableRow.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
@@ -260,21 +254,19 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
 
             reg_no_tv = new TextView(this);
             reg_no_tv.setText(data[0]);
-            reg_no_tv.setTextColor(Color.BLACK);
+            reg_no_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             reg_no_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             reg_no_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
             reg_no_tv.setTextSize(15);
-            reg_no_tv.setBackgroundColor(Color.LTGRAY);
             reg_no_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             reg_no_tv.setPadding(15, 20, 15, 20);
             tableRow.addView(reg_no_tv);
 
             model_tv = new TextView(this);
             model_tv.setText(data[1]);
-            model_tv.setTextColor(Color.BLACK);
+            model_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             model_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             model_tv.setTextSize(15);
-            model_tv.setBackgroundColor(Color.LTGRAY);
             model_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             model_tv.setPadding(15, 20, 15, 20);
             model_tv.setTypeface(Typeface.SERIF, Typeface.NORMAL);
@@ -293,9 +285,8 @@ public class GetRide extends AppCompatActivity implements NavigationView.OnNavig
 
             price_tv = new TextView(this);
             price_tv.setText("Rs. "+data[4]);
-            price_tv.setTextColor(Color.BLACK);
+            price_tv.setTextColor(getResources().getColor(R.color.colorAccent,null));
             price_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            price_tv.setBackgroundColor(Color.LTGRAY);
             price_tv.setTextSize(15);
             price_tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             price_tv.setPadding(15, 20, 15, 20);

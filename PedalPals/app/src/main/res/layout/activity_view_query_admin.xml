@@ -9,11 +9,10 @@
     tools:openDrawer="start">
 
     <LinearLayout
-        android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".Transaction">
+        tools:context=".ViewQueryAdmin">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -24,90 +23,63 @@
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+
         <LinearLayout
+            android:id="@+id/LinearLayout1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="12dp">
+            tools:context=".ViewQueryAdmin">
 
-            <TextView
-                android:id="@+id/Login"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginBottom="10dp"
-                android:text="View Transactions"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="25sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="16dp" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5">
+                android:orientation="vertical"
+                android:padding="12dp">
+
                 <TextView
-                    android:id="@+id/nodata_ride"
+                    android:id="@+id/Login"
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="View Contact Queries"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="16dp" />
+
+                <TextView
+                    android:id="@+id/nodata"
                     android:layout_width="match_parent"
                     android:layout_height="30sp"
                     android:layout_marginBottom="10dp"
                     android:text=""
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     tools:layout_editor_absoluteX="16dp" />
 
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="608dp"
                     android:scrollbars="vertical">
 
                     <TableLayout
-                        android:id="@+id/table_ride"
+                        android:id="@+id/table"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
+                        android:layout_marginTop="10dp"
                         android:stretchColumns="0,1,2">
 
                     </TableLayout>
+
                 </ScrollView>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5">
-
-                <TextView
-                    android:id="@+id/nodata_rent"
-                    android:layout_width="match_parent"
-                    android:layout_height="30sp"
-                    android:layout_marginBottom="10dp"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:layout_editor_absoluteX="16dp" />
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="vertical">
-
-                    <TableLayout
-                        android:id="@+id/table_rent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-                        android:stretchColumns="0,1,2">
-
-                    </TableLayout>
-                </ScrollView>
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView

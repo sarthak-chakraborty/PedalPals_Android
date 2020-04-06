@@ -8,7 +8,23 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context="com.example.pedalpals.AdminLogin">
+    tools:context="com.example.pedalpals.UserLogin">
+
+
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:background="@android:color/transparent"
+        android:shadowColor="@android:color/transparent"
+        android:text="New to PedalPals? Click Here to Sign up!"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <TextView
@@ -29,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="57dp"
         android:layout_marginBottom="532dp"
-        android:text="Admin Login"
+        android:text="User Login"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="25sp"

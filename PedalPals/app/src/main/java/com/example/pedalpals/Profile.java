@@ -175,13 +175,13 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
             @Override
             public void onClick(View v) {
                 if (password.getText().toString().isEmpty()) {
-                    boolean isInerted = db.updateData_User(username,
+                    boolean isInerted = true; /*db.updateData_User(username,
                             first_name.getText().toString(),
                             last_name.getText().toString(),
                             email.getText().toString(),
                             hall.getText().toString(),
                             room.getText().toString());
-
+*/
                     if (isInerted) {
                         Toast.makeText(Profile.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                     } else {

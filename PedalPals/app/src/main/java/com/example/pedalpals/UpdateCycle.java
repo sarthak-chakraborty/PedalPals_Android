@@ -16,8 +16,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +32,16 @@ public class UpdateCycle extends AppCompatActivity implements NavigationView.OnN
     Database db;
 
     TextView nav_head_name, nav_head_email;
-    EditText model, color, location, price;
+    EditText model, color, price,condition;
+    Spinner location;
     Button update;
     TextView reg;
+    String location_name;
     SharedPreferences cycle;
     StringBuffer bf;
     String reg_no, username;
+    int loc_index;
+    String actual_loc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,7 @@ public class UpdateCycle extends AppCompatActivity implements NavigationView.OnN
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        loc_index = 0;
         drawer = findViewById(R.id.drawer);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
@@ -61,6 +69,7 @@ public class UpdateCycle extends AppCompatActivity implements NavigationView.OnN
         location = findViewById(R.id.location);
         price = findViewById(R.id.price);
         update = findViewById(R.id.update_button);
+        condition = findViewById(R.id.condition);
         nav_head_name = hView.findViewById(R.id.nav_welcome);
         nav_head_email = hView.findViewById(R.id.nav_mail);
 
@@ -77,6 +86,48 @@ public class UpdateCycle extends AppCompatActivity implements NavigationView.OnN
         String[] str_nav_head = nav_head.toString().split(";");
         nav_head_name.setText(str_nav_head[0]);
         nav_head_email.setText(str_nav_head[1]);
+
+        Cursor result = db.getData_Cycle_reg(reg_no);
+        result.moveToNext();
+        actual_loc = result.getString(3);
+
+        res = db.getAllData_Location();
+        String[] items;
+        StringBuffer bf = new StringBuffer();
+        bf.append("Select Location;");
+        location_name="Select Location";
+        int i=1;
+        if(res.getCount() > 0){
+            while(res.moveToNext()){
+                bf.append(res.getString(0)+";");
+                if(res.getString(0).equals(actual_loc)){
+                    loc_index=i;
+                }
+                i++;
+            }
+            bf.deleteCharAt(bf.length()-1);
+        }
+        items = bf.toString().split(";");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(UpdateCycle.this,
+                android.R.layout.simple_spinner_item, items);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        location.setAdapter(adapter);
+        location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                Object item = parent.getItemAtPosition(position);
+                location_name = String.valueOf(item);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
 
         getData();
         updateCycle();
@@ -156,7 +207,8 @@ public class UpdateCycle extends AppCompatActivity implements NavigationView.OnN
             bf.append(result.getString(1) + ";");
             bf.append(result.getString(2) + ";");
             bf.append(result.getString(3) + ";");
-            bf.append(result.getString(4));
+            bf.append(result.getString(4) + ";");
+            bf.append(result.getString(7));
         }
 
         String[] cycle_data = bf.toString().split(";");
@@ -165,8 +217,9 @@ public class UpdateCycle extends AppCompatActivity implements NavigationView.OnN
         reg.setTextSize(20);
         model.setText(cycle_data[1]);
         color.setText(cycle_data[2]);
-        location.setText(cycle_data[3]);
+        location.setSelection(loc_index);
         price.setText(cycle_data[4]);
+        condition.setText(cycle_data[5]);
     }
 
 
@@ -174,11 +227,31 @@ public class UpdateCycle extends AppCompatActivity implements NavigationView.OnN
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(price.getText().toString().trim().equals("") || model.getText().toString().trim().equals("") || color.getText().toString().trim().equals("") ||
+                        condition.getText().toString().trim().equals("")){
+                    Toast.makeText(UpdateCycle.this, "Fields cannot be left blank", Toast.LENGTH_SHORT).show();
+                }
+
+                try {
+                    Integer p = Integer.parseInt(price.getText().toString().trim());
+                }
+                catch(Exception e){
+                    Toast.makeText(UpdateCycle.this, "Price needs to be Integer", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(location.equals("Select Location")){
+                    Toast.makeText(UpdateCycle.this, "Select Valid Location", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 boolean isInserted = db.updateData_Cycle(reg_no,
-                        model.getText().toString(),
-                        color.getText().toString(),
-                        location.getText().toString(),
-                        Integer.parseInt(price.getText().toString()));
+                        model.getText().toString().trim(),
+                        color.getText().toString().trim(),
+                        location_name,
+                        Integer.parseInt(price.getText().toString().trim()),
+                        condition.getText().toString().trim());
 
                 if (isInserted) {
                     Toast.makeText(UpdateCycle.this, "Cycle Updated", Toast.LENGTH_SHORT).show();

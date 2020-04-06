@@ -10,12 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
-public class AdminLogin extends AppCompatActivity {
+public class UserLogin extends AppCompatActivity {
     Database db;
 
     EditText username, password;
-    Button login, delete;
+    Button login, signup;
     TextView txt_incorrect_user;
     SharedPreferences prefs;
     Boolean isLogin;
@@ -23,40 +24,39 @@ public class AdminLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_login);
+        setContentView(R.layout.activity_user_login);
 
         db = new Database(this);
 
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         login = findViewById(R.id.login_button);
+        signup = findViewById(R.id.signup_button);
         txt_incorrect_user = findViewById(R.id.text_incorrect_user);
 
         prefs = this.getSharedPreferences("PedalPals", 0);
         isLogin = prefs.getBoolean("userlogin", false);
-
-        db.insertData_Admin("Sarthak", "Chakraborty", "sarthak.chakraborty@gmail.com", "sarthak", "sarthak");
-
+        gotoSignup();;
         logging();
+
     }
 
     private void logging() {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean res = db.login_Admin(username.getText().toString(), password.getText().toString());
+                boolean res = db.login_User(username.getText().toString(), password.getText().toString());
 
                 if(res){
-                    Toast.makeText(AdminLogin.this, "Logged In", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserLogin.this, "Logged In", Toast.LENGTH_SHORT).show();
                     prefs.edit().putString("username", username.getText().toString()).apply();
 
                     SharedPreferences.Editor edit = prefs.edit();
                     edit.putBoolean("userlogin", true);
                     edit.apply();
 
-                    Intent i = new Intent(AdminLogin.this, AdminMenu.class);
+                    Intent i = new Intent(UserLogin.this, Menu.class);
                     startActivity(i);
-                    finish();
                 }
                 else{
                     String s = "Incorrect Username or Password";
@@ -67,5 +67,18 @@ public class AdminLogin extends AppCompatActivity {
             }
         });
     }
+
+    private void gotoSignup(){
+        signup.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(UserLogin.this, Signup.class);
+                        startActivity(i);
+                    }
+                }
+        );
+    }
+
 
 }
