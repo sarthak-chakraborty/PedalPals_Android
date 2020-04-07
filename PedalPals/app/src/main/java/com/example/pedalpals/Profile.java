@@ -28,7 +28,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
     Database db;
 
     TextView user;
-    EditText first_name, last_name, email, hall, room, password, re_password;
+    EditText first_name, last_name, email, hall, room, mobile, password, re_password;
     Button update;
     SharedPreferences prefs;
 
@@ -61,6 +61,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
         hall = findViewById(R.id.hall);
         room = findViewById(R.id.room);
         user = findViewById(R.id.username);
+        mobile = findViewById(R.id.mobile);
         password = findViewById(R.id.password);
         re_password = findViewById(R.id.re_password);
         update = findViewById(R.id.update_button);
@@ -156,7 +157,8 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
             bf.append(res.getString(2) + ";");
             bf.append(res.getString(3) + ";");
             bf.append(res.getString(4) + ";");
-            bf.append(res.getString(5));
+            bf.append(res.getString(5) + ";");
+            bf.append(res.getString(8));
         }
 
         String[] data = bf.toString().split(";");
@@ -167,6 +169,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
         email.setText(data[2]);
         hall.setText(data[4]);
         room.setText(data[3]);
+        mobile.setText(data[5]);
     }
 
 
@@ -174,15 +177,42 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(first_name.getText().toString().trim().equals("") ||
+                        email.getText().toString().trim().equals("") || hall.getText().toString().trim().equals("") ||
+                        room.getText().toString().trim().equals("") || mobile.getText().toString().trim().equals("")){
+                    Toast.makeText(Profile.this, "Fields left blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Cursor res;
+                res = db.getData_User_email_id(email.getText().toString().trim());
+                if(res.getCount()!=0){
+                    Toast.makeText(Profile.this, "Email ID is already in use", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                res = db.getData_User_mobile_number(mobile.getText().toString().trim());
+                if(res.getCount()!=0){
+                    Toast.makeText(Profile.this, "Mobile Number is already in use", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    Long i = Long.parseLong(mobile.getText().toString().trim());
+                } catch (NumberFormatException nfe) {
+                    Toast.makeText(Profile.this, "Mobile Number is incorrect", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (password.getText().toString().isEmpty()) {
-                    boolean isInerted = true; /*db.updateData_User(username,
-                            first_name.getText().toString(),
-                            last_name.getText().toString(),
-                            email.getText().toString(),
-                            hall.getText().toString(),
-                            room.getText().toString());
-*/
-                    if (isInerted) {
+                    boolean isInserted = db.updateData_User(username,
+                            first_name.getText().toString().trim(),
+                            last_name.getText().toString().trim(),
+                            email.getText().toString().trim(),
+                            hall.getText().toString().trim(),
+                            room.getText().toString().trim(),
+                            mobile.getText().toString().trim()
+                            );
+
+                    if (isInserted) {
                         Toast.makeText(Profile.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(Profile.this, "Error Occurred", Toast.LENGTH_SHORT).show();
@@ -193,15 +223,16 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
                 }
                 else{
                     if (password.getText().toString().equals(re_password.getText().toString())){
-                        boolean isInerted = db.updateData_User_pass(username,
-                                first_name.getText().toString(),
-                                last_name.getText().toString(),
-                                email.getText().toString(),
-                                hall.getText().toString(),
-                                room.getText().toString(),
-                                password.getText().toString());
+                        boolean isInserted = db.updateData_User_pass(username,
+                                first_name.getText().toString().trim(),
+                                last_name.getText().toString().trim(),
+                                email.getText().toString().trim(),
+                                hall.getText().toString().trim(),
+                                room.getText().toString().trim(),
+                                password.getText().toString().trim(),
+                                mobile.getText().toString().trim());
 
-                        if (isInerted) {
+                        if (isInserted) {
                             Toast.makeText(Profile.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(Profile.this, "Error Occurred", Toast.LENGTH_SHORT).show();

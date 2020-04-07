@@ -18,7 +18,8 @@
         <activity android:name=".Contact" />
         <activity android:name=".ViewCycleAdmin"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".AdminProfile" />
+        <activity android:name=".AdminProfile"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ViewUserAdmin"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".UserLogin" />

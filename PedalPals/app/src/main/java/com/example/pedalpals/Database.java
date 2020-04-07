@@ -246,7 +246,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateData_User(String username, String first_name, String last_name, String email, String hall,String room,String mobile_number) {
+    public boolean updateData_User(String username, String first_name, String last_name, String email, String hall,String room, String mobile_number) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         if(username.isEmpty() || first_name.isEmpty() || email.isEmpty() || mobile_number.isEmpty())
@@ -265,10 +265,10 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateData_User_pass(String username, String first_name, String last_name, String email, String hall,String room, String password) {
+    public boolean updateData_User_pass(String username, String first_name, String last_name, String email, String hall,String room, String password, String mobile) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        if(username.isEmpty() || first_name.isEmpty() || email.isEmpty() || password.isEmpty())
+        if(username.isEmpty() || first_name.isEmpty() || email.isEmpty() || password.isEmpty() || mobile.isEmpty())
             return false;
 
         ContentValues contentValues = new ContentValues();
@@ -279,6 +279,7 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(USER_COL_5, room);
         contentValues.put(USER_COL_6, hall);
         contentValues.put(USER_COL_7, password);
+        contentValues.put(USER_COL_9, mobile);
         db.update(TABLE_USER, contentValues, "username=?", new String[]{username});
         return true;
     }
@@ -450,6 +451,13 @@ public class Database extends SQLiteOpenHelper {
     public Cursor getAllData_Transaction(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor result = db.rawQuery("SELECT * FROM "+TABLE_TRANSACTION, null);
+        return result;
+    }
+
+
+    public Cursor getData_Admin_username(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("SELECT * FROM "+TABLE_ADMIN+" WHERE username=?", new String[]{username});
         return result;
     }
 
