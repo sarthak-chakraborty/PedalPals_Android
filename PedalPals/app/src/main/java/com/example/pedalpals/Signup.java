@@ -41,6 +41,8 @@ public class Signup extends AppCompatActivity {
         login = findViewById(R.id.goto_login_button);
         incorrect = findViewById(R.id.incorrect_details);
 
+//        db.insertData_Transaction("lovish","sarthak","12","2020-04-06","2020-04-07",3);
+
         AddData();
         gotoLogin();
     }

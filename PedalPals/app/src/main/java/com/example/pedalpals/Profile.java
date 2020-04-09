@@ -35,6 +35,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
     TextView nav_head_name, nav_head_email;
 
     String username;
+    String[] data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +162,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
             bf.append(res.getString(8));
         }
 
-        String[] data = bf.toString().split(";");
+        data = bf.toString().split(";");
 
         user.setText(username);
         first_name.setText(data[0]);
@@ -186,14 +187,26 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
                 Cursor res;
                 res = db.getData_User_email_id(email.getText().toString().trim());
                 if(res.getCount()!=0){
-                    Toast.makeText(Profile.this, "Email ID is already in use", Toast.LENGTH_SHORT).show();
-                    return;
+                    String str="";
+                    while (res.moveToNext()){
+                        str = res.getString(3);
+                    }
+                    if(! str.equals(data[2])){
+                        Toast.makeText(Profile.this, "Email ID is already in use", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
 
                 res = db.getData_User_mobile_number(mobile.getText().toString().trim());
                 if(res.getCount()!=0){
-                    Toast.makeText(Profile.this, "Mobile Number is already in use", Toast.LENGTH_SHORT).show();
-                    return;
+                    String str="";
+                    while (res.moveToNext()){
+                        str = res.getString(8);
+                    }
+                    if(! str.equals(data[5])){
+                        Toast.makeText(Profile.this, "Mobile Number is already in use", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
 
                 try {

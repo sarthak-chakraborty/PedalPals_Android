@@ -63,7 +63,7 @@ public class AdminMenu extends AppCompatActivity  implements NavigationView.OnNa
         prefs = this.getSharedPreferences("PedalPals", 0);
         username = prefs.getString("username", "UNKNOWN");
 
-        Cursor res = db.getData_User_username(username);
+        Cursor res = db.getData_Admin_username(username);
         StringBuffer nav_head = new StringBuffer();
         while(res.moveToNext()){
             nav_head.append(res.getString(1) + " " + res.getString(2) + ";");

@@ -93,6 +93,7 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
         nav_head_name.setText(str_nav_head[0]);
         nav_head_email.setText(str_nav_head[1]);
 
+
         getData_ride();
         if(hasData_ride){
             nodata_ride.setText("Ride Data");
@@ -295,8 +296,9 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
 
+
             if((curDate.getTime()-endDate.getTime())>=0 && (Integer.parseInt(data[8]) <= 0)) {
-                tableRow.setBackgroundColor(getResources().getColor(R.color.color4,null));
+                tableRow.setBackgroundColor(Color.rgb(250, 185, 185));
                 flag_ride = true;
             }
             else
@@ -432,6 +434,7 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
                     trans.edit().putString("price", data[6]).apply();
                     trans.edit().putBoolean("ride", true).apply();
 
+                    flag_ride=false;
                     Intent i = new Intent(Transaction.this, TransactionDetails.class);
                     startActivity(i);
                 }
@@ -566,7 +569,7 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
             }
 
             if((curDate.getTime()-endDate.getTime())>=0 && (Integer.parseInt(data[7]) <= 0)) {
-                tableRow.setBackgroundColor(getResources().getColor(R.color.color4,null));
+                tableRow.setBackgroundColor(Color.rgb(250, 185, 185));
                 flag_rent = true;
             }
             else
@@ -695,6 +698,7 @@ public class Transaction extends AppCompatActivity implements NavigationView.OnN
                     trans.edit().putString("price", data[6]).apply();
                     trans.edit().putBoolean("ride", false).apply();
 
+                    flag_rent=true;
                     Intent i = new Intent(Transaction.this, TransactionDetails.class);
                     startActivity(i);
                 }

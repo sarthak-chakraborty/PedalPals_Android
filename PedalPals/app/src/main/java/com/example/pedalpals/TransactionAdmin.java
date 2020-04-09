@@ -44,6 +44,7 @@ public class TransactionAdmin extends AppCompatActivity implements NavigationVie
     StringBuffer bf;
     String username;
     SharedPreferences prefs;
+    SharedPreferences trans;
 
     TextView user_tv, regno_tv, id_tv, owner_tv, nodata;
 
@@ -70,11 +71,12 @@ public class TransactionAdmin extends AppCompatActivity implements NavigationVie
         nav_head_name = hView.findViewById(R.id.nav_welcome);
         nav_head_email = hView.findViewById(R.id.nav_mail);
 
+        trans = this.getSharedPreferences("Transactions", 0);
         prefs = this.getSharedPreferences("PedalPals", 0);
         username = prefs.getString("username", "");
 
 
-        Cursor res = db.getData_User_username(username);
+        Cursor res = db.getData_Admin_username(username);
         StringBuffer nav_head = new StringBuffer();
         while(res.moveToNext()){
             nav_head.append(res.getString(1) + " " + res.getString(2) + ";");
@@ -303,44 +305,56 @@ public class TransactionAdmin extends AppCompatActivity implements NavigationVie
             tableRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    StringBuffer buffer = new StringBuffer();
-                    buffer.append("Transaction ID: "+data[0] + "\n\n");
-                    buffer.append("User ID: "+data[1] + "\n\n");
-                    buffer.append("Cycle Reg. No.: "+data[3] + "\n\n");
-                    buffer.append("Owner ID: "+data[2] + "\n\n");
-                    buffer.append("Start Date: "+data[4] + "\n\n");
-                    buffer.append("End Date: "+data[5] + "\n\n");
-                    buffer.append("Price Per Day: "+data[6] + "\n\n");
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    Date curDate = new Date();
-                    Date startDate=curDate, endDate=curDate;
-                    try{
-                        startDate = sdf.parse(data[4]);
-                        endDate = sdf.parse(data[5]);
-                    } catch (ParseException e){
-                        e.printStackTrace();
-                    }
-                    long diff = endDate.getTime() - startDate.getTime();
-                    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+                    trans.edit().putString("transaction_id", data[0]).apply();
+                    trans.edit().putString("user", data[1]).apply();
+                    trans.edit().putString("owner", data[2]).apply();
+                    trans.edit().putString("reg_no", data[3]).apply();
+                    trans.edit().putString("start_date", data[4]).apply();
+                    trans.edit().putString("end_date", data[5]).apply();
+                    trans.edit().putString("price", data[6]).apply();
+                    trans.edit().putBoolean("ride", true).apply();
 
-                    buffer.append("Amount: Rs. " + (Integer.parseInt(data[6]) * days)+"\n\n");
+                    Intent i = new Intent(TransactionAdmin.this, AdminTransactionDetails.class);
+                    startActivity(i);
 
-                    String user_rating;
-                    String cycle_rating;
-
-                    if(data[7].isEmpty() || data[7].equals("0"))
-                        user_rating = "NA";
-                    else
-                        user_rating = data[7];
-
-                    if(data[8].isEmpty() || data[8].equals("0"))
-                        cycle_rating = "NA";
-                    else
-                        cycle_rating = data[8];
-
-                    buffer.append("User Rating: "+user_rating+ "\n\n");
-                    buffer.append("Cycle Rating: "+cycle_rating+ "\n\n");
-                    showMessage("Details", buffer.toString());
+//                    StringBuffer buffer = new StringBuffer();
+//                    buffer.append("Transaction ID: "+data[0] + "\n\n");
+//                    buffer.append("User ID: "+data[1] + "\n\n");
+//                    buffer.append("Cycle Reg. No.: "+data[3] + "\n\n");
+//                    buffer.append("Owner ID: "+data[2] + "\n\n");
+//                    buffer.append("Start Date: "+data[4] + "\n\n");
+//                    buffer.append("End Date: "+data[5] + "\n\n");
+//                    buffer.append("Price Per Day: "+data[6] + "\n\n");
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                    Date curDate = new Date();
+//                    Date startDate=curDate, endDate=curDate;
+//                    try{
+//                        startDate = sdf.parse(data[4]);
+//                        endDate = sdf.parse(data[5]);
+//                    } catch (ParseException e){
+//                        e.printStackTrace();
+//                    }
+//                    long diff = endDate.getTime() - startDate.getTime();
+//                    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+//
+//                    buffer.append("Amount: Rs. " + (Integer.parseInt(data[6]) * days)+"\n\n");
+//
+//                    String user_rating;
+//                    String cycle_rating;
+//
+//                    if(data[7].isEmpty() || data[7].equals("0"))
+//                        user_rating = "NA";
+//                    else
+//                        user_rating = data[7];
+//
+//                    if(data[8].isEmpty() || data[8].equals("0"))
+//                        cycle_rating = "NA";
+//                    else
+//                        cycle_rating = data[8];
+//
+//                    buffer.append("User Rating: "+user_rating+ "\n\n");
+//                    buffer.append("Cycle Rating: "+cycle_rating+ "\n\n");
+//                    showMessage("Details", buffer.toString());
                 }
             });
 
@@ -351,26 +365,6 @@ public class TransactionAdmin extends AppCompatActivity implements NavigationVie
 
     }
 
-
-          /*  tableRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    StringBuffer buffer = new StringBuffer();
-                    buffer.append("Username: " + data[0] + "\n\n");
-                    buffer.append("Name: " + data[1] + " " + data[2] + "\n\n");
-                    buffer.append("Email ID: " + data[3] + "\n\n");
-                    buffer.append("Room: " + data[4] + "\n\n");
-                    buffer.append("Hall: " + data[5] + "\n\n");
-
-                    if (data[7] == "") {
-                        data[7] = "NA";
-                    }
-                    buffer.append("Rating: " + data[7] + "\n\n");
-
-
-                    showMessage("Details", buffer.toString(), data[0]);
-                }
-            });*/
 
     private void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

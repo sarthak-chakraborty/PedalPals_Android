@@ -385,6 +385,11 @@ public class Database extends SQLiteOpenHelper {
         return db.delete(TABLE_CYCLE, "reg_no=? AND username=?", new String[]{reg_no, username});
     }
 
+    public int deleteData_Cycle_username(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_CYCLE, "username=?", new String[]{username});
+    }
+
     public int deleteData_Contact(String email, String subject,String q_Date){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_CONTACT, "email_id=? AND query_date=? AND subject=?", new String[]{email, q_Date, subject});
@@ -438,7 +443,7 @@ public class Database extends SQLiteOpenHelper {
 
     public Cursor getAllData_User_cycle(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor result = db.rawQuery("select username,count(reg_no) as c from "+ TABLE_USER+" natural left outer join cycle group by username", null);
+        Cursor result = db.rawQuery("SELECT username, count(reg_no) as c from "+ TABLE_USER+" natural left outer join "+TABLE_CYCLE+" group by username", null);
         return result;
     }
 

@@ -9,22 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TransactionAdmin"
+        <activity android:name=".AdminTransactionDetails"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ManageLocationsAdmin"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ViewQueryAdmin"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".TransactionAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ManageLocationsAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewQueryAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Contact" />
-        <activity android:name=".ViewCycleAdmin"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".AdminProfile"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ViewUserAdmin"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ViewCycleAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AdminProfile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewUserAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UserLogin" />
-        <activity android:name=".AdminMenu"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".AdminMenu"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Profile"
             android:theme="@style/AppTheme.NoActionBar" />

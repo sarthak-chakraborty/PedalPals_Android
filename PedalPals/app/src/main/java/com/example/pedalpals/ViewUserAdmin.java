@@ -70,7 +70,7 @@ public class ViewUserAdmin extends AppCompatActivity implements NavigationView.O
         prefs = this.getSharedPreferences("PedalPals", 0);
         username = prefs.getString("username", "");
 
-        Cursor res = db.getData_User_username(username);
+        Cursor res = db.getData_Admin_username(username);
         StringBuffer nav_head = new StringBuffer();
         while(res.moveToNext()){
             nav_head.append(res.getString(1) + " " + res.getString(2) + ";");
@@ -305,7 +305,7 @@ public class ViewUserAdmin extends AppCompatActivity implements NavigationView.O
                         buffer.append("\n\n");
                     }
 
-                    showMessage("Details", buffer.toString(), data[0]);
+                    showMessage("Details", buffer.toString(), data[0], data[8]);
                 }
             });
 
@@ -319,27 +319,7 @@ public class ViewUserAdmin extends AppCompatActivity implements NavigationView.O
     }
 
 
-          /*  tableRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    StringBuffer buffer = new StringBuffer();
-                    buffer.append("Username: " + data[0] + "\n\n");
-                    buffer.append("Name: " + data[1] + " " + data[2] + "\n\n");
-                    buffer.append("Email ID: " + data[3] + "\n\n");
-                    buffer.append("Room: " + data[4] + "\n\n");
-                    buffer.append("Hall: " + data[5] + "\n\n");
-
-                    if (data[7] == "") {
-                        data[7] = "NA";
-                    }
-                    buffer.append("Rating: " + data[7] + "\n\n");
-
-
-                    showMessage("Details", buffer.toString(), data[0]);
-                }
-            });*/
-
-    private void showMessage(String title, String message, final String username) {
+    private void showMessage(String title, String message, final String username, final String n_cycles) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(message);
@@ -362,22 +342,46 @@ public class ViewUserAdmin extends AppCompatActivity implements NavigationView.O
                             Toast.makeText(ViewUserAdmin.this, "Cannot Delete. User is currently involved in a transaction.", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Integer deleteRows = db.deleteUser(username);
-                            if(deleteRows > 0) {
-                                Toast.makeText(ViewUserAdmin.this, "User Deleted", Toast.LENGTH_SHORT).show();
-                                tableLayout.removeAllViews();
-                                getData();
-                                if(hasData) {
-                                    addHeaders();
-                                    addData();
-                                }
-                                else{
-                                    nodata.setText("No Data Available");
+                            Integer delRows = db.deleteData_Cycle_username(username);
+                            if(delRows > 0){
+                                Integer deleteRows = db.deleteUser(username);
+                                if(deleteRows > 0) {
+                                    Toast.makeText(ViewUserAdmin.this, "User Deleted", Toast.LENGTH_SHORT).show();
+                                    tableLayout.removeAllViews();
+                                    getData();
+                                    if(hasData) {
+                                        addHeaders();
+                                        addData();
+                                    }
+                                    else{
+                                        nodata.setText("No Data Available");
 
+                                    }
+                                }
+                                else
+                                    Toast.makeText(ViewUserAdmin.this, "User Not Deleted", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                if(n_cycles.equals("0")){
+                                    Integer deleteRows = db.deleteUser(username);
+                                    if(deleteRows > 0) {
+                                        Toast.makeText(ViewUserAdmin.this, "User Deleted", Toast.LENGTH_SHORT).show();
+                                        tableLayout.removeAllViews();
+                                        getData();
+                                        if (hasData) {
+                                            addHeaders();
+                                            addData();
+                                        } else {
+                                            nodata.setText("No Data Available");
+
+                                        }
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(ViewUserAdmin.this, "User Not Deleted", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            else
-                                Toast.makeText(ViewUserAdmin.this, "User Not Deleted", Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
