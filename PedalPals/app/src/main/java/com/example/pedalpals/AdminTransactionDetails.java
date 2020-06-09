@@ -118,13 +118,13 @@ public class AdminTransactionDetails extends AppCompatActivity implements Naviga
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_menu:
-                Intent i = new Intent(AdminTransactionDetails.this, Menu.class);
+                Intent i = new Intent(AdminTransactionDetails.this, AdminMenu.class);
                 startActivity(i);
                 finish();
                 break;
 
             case R.id.nav_profile:
-                Intent i1 = new Intent(AdminTransactionDetails.this, Profile.class);
+                Intent i1 = new Intent(AdminTransactionDetails.this, AdminProfile.class);
                 startActivity(i1);
                 break;
 
