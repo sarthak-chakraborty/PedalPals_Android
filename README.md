@@ -9,16 +9,6 @@ Targeted SDK Version: 29
 
 ## Screenshots of the App
 
-<img src="https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/1.jpg" width="100" height="217">
+<img src="https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/1.jpg" width="200" height="433"><pre>       </pre><img src="https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/2.jpg" width="200" height="433"><pre>       </pre><img src="https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/3.jpg" width="200" height="433"> 
 
-![Home Page](https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/1.jpg =100x217) 
-
-![Login Page](https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/2.jpg =100x217)  
-
-![Menu Page](https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/3.jpg =100x217)  
-
-![Navigation Drawer](https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/4.jpg =100x217)  
-
-![Get Ride Page](https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/5.jpg =100x217)  
-
-![Transaction Page](https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/6.jpg =100x217)  
+<img src="https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/4.jpg" width="200" height="433"><pre>       </pre><img src="https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/5.jpg" width="200" height="433"><pre>       </pre><img src="https://github.com/sarthak-chakraborty/PedalPals_Android/blob/master/img/6.jpg" width="200" height="433">  
