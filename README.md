@@ -1,5 +1,8 @@
 # PedalPals
 
+Collaboration of ![Sarthak Chakraborty](https://github.com/sarthak-chakraborty) and ![Lovish Chopra](https://github.com/lovishchopra) 
+
+
 An android based Bicycle Rental Portal developed using Java and SQLite database management system in Android Studio.
 
 Minimum SDK Version: 24
